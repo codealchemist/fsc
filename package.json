@@ -1,0 +1,25 @@
+{
+  "name": "escm-nodeconf",
+  "version": "1.0.0",
+  "description": "Filesystem challenge.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattiascaricato/escm-nodeconf.git"
+  },
+  "author": "Federico Naveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattiascaricato/escm-nodeconf/issues"
+  },
+  "homepage": "https://github.com/mattiascaricato/escm-nodeconf#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "cuid": "^1.3.8",
+    "minimist": "^1.2.0"
+  }
+}

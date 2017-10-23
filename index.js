@@ -25,7 +25,7 @@ Congrats for making it this far!
 And welcome to a new challenge!
 
 You might already know that solving one challenge gives you access to the next one.
-To solve this one and move forward you need find the filename which content contains
+To solve this one and move forward you need to find the filename which content contains
 the following string:
 ${needle}
 

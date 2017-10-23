@@ -3,7 +3,7 @@ var argv = require('minimist')(process.argv.slice(2));
 const cuid = require('cuid');
 const crypto = require('crypto');
 
-const maxFiles = 5;
+const maxFiles = 27;
 const maxFolder = 5;
 const maxLevel = 5;
 
@@ -17,25 +17,13 @@ if (!fs.existsSync(path)) {
   fs.mkdirSync(path);
 }
 
-const readme = `NODECONF - FILESYSTEM CHALLENGE
--------------------------------
-
-Hi there!
-Congrats for making it this far!
-And welcome to a new challenge!
-
-You might already know that solving one challenge gives you access to the next one.
-To solve this one and move forward you need to find the filename which content contains
-the following string:
-${needle}
-
-Good luck!
-
-
-
---
-The Elementum Team
-`
+const readme = `
+  Hi there! Congrats for making it this far!
+  And welcome to a new challenge!
+  Find a file that contains the string "${needle}".
+  It shouldn't be so hard... Should it?
+`.replace(/\n/g, ' ')
+ .replace(/\s{2}/g, '');
 
 // Write readme file.
 const readmeFile = `${path}/README.txt`;
@@ -48,26 +36,7 @@ function createLevel(root, level = 0, amIkeyPath) {
   const filesAmount = Math.floor(Math.random() * maxFiles + 1);
 
   const keyOrder = Math.floor(Math.random() * (keyLevel === level && amIkeyPath ? filesAmount : folderAmount));
-  if (level === maxLevel) {
-    return;
-  }
 
-  for (var i = 0; i < folderAmount; i++) {
-    let name;
-    let filePath;
-    do {
-      name = getHash();
-      filePath = root + '/' + name;
-    } while(fs.existsSync(filePath))
-
-    fs.mkdirSync(filePath);
-
-    const secretDirection = keyOrder === i && keyLevel !== level && amIkeyPath;
-
-    createLevel(filePath, level + 1,  secretDirection);
-
-    // console.log('creating:',root + '/' + name);
-  }
   for (var i = 0; i < filesAmount; i++) {
     let name;
     let filePath;
@@ -87,6 +56,25 @@ function createLevel(root, level = 0, amIkeyPath) {
       fs.writeFileSync(filePath, content, 'utf8');
     }
   }
+
+  if (level === maxLevel) {
+    return;
+  }
+
+  for (var i = 0; i < folderAmount; i++) {
+    let name;
+    let filePath;
+    do {
+      name = getHash();
+      filePath = root + '/' + name;
+    } while(fs.existsSync(filePath))
+
+    fs.mkdirSync(filePath);
+
+    const secretDirection = keyOrder === i && keyLevel !== level && amIkeyPath;
+    createLevel(filePath, level + 1,  secretDirection);
+    // console.log('creating:',root + '/' + name);
+  }
 }
 
 function makeString(needle = '') {
@@ -98,6 +86,17 @@ function makeString(needle = '') {
   }
 
   randomText = `${randomText}${needle}${randomText}`
+  if (needle) {
+    randomText = `${randomText}
+      TODO: DEFINE SERVER:PORT!!!
+      You're tougher than we thought!
+      Send an HTTP GET request to https://SERVER:PORT/FILE_NAME/YOUR@EMAIL,
+      where FILE_NAME is the name of this file.
+      The server will send you an image that contains an encrypted secret message in it. 
+      You better get to work if you want to win that Phantom drone...
+    `.replace(/\n/g, ' ')
+     .replace(/\s{2}/g, '');
+  }
   return randomText;
 }
 

@@ -8,14 +8,38 @@ const maxFolder = 5;
 const maxLevel = 5;
 
 const keyLevel = Math.floor(Math.random() * maxLevel) + 1;
-const keyHash = argv.NEEDLE || 'NEEDLE';
-const keyFileName = argv.HASH || 'HASH';
+const needle = argv.NEEDLE || 'NEEDLE'; // Written inside file.
+const hash = argv.HASH || 'HASH'; // Filename.
 const path = argv.PATH || './hash-fs'
 
 // Ensure root path exists.
 if (!fs.existsSync(path)) {
   fs.mkdirSync(path);
 }
+
+const readme = `NODECONF - FILESYSTEM CHALLENGE
+-------------------------------
+
+Hi there!
+Congrats for making it this far!
+And welcome to a new challenge!
+
+You might already know that solving one challenge gives you access to the next one.
+To solve this one and move forward you need find the filename which content contains
+the following string:
+${needle}
+
+Good luck!
+
+
+
+--
+The Elementum Team
+`
+
+// Write readme file.
+const readmeFile = `${path}/README.txt`;
+fs.writeFileSync(readmeFile, readme, 'utf8');
 
 console.log('LEVELS:', keyLevel);
 
@@ -55,9 +79,9 @@ function createLevel(root, level = 0, amIkeyPath) {
     const secretDirection = keyOrder === i && keyLevel === level && amIkeyPath;
 
     if (secretDirection) {
-      console.log('WRITING THE SECRET!', root + '/' + keyFileName);
-      const content = makeString(keyHash);
-      fs.writeFileSync(root + '/' + keyFileName, content, 'utf8');
+      console.log('WRITING THE SECRET!', root + '/' + hash); // Filename.
+      const content = makeString(needle);
+      fs.writeFileSync(root + '/' + hash, content, 'utf8'); // Filename.
     } else {
       const content = makeString();
       fs.writeFileSync(filePath, content, 'utf8');
@@ -65,7 +89,7 @@ function createLevel(root, level = 0, amIkeyPath) {
   }
 }
 
-function makeString(hash = '') {
+function makeString(needle = '') {
   let randomText = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const contentLength = Math.floor(Math.random() * 1000);
@@ -73,7 +97,7 @@ function makeString(hash = '') {
     randomText += possible.charAt(Math.floor(Math.random() * possible.length));
   }
 
-  randomText = `${randomText}${hash}${randomText}`
+  randomText = `${randomText}${needle}${randomText}`
   return randomText;
 }
 

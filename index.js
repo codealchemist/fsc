@@ -88,12 +88,11 @@ function makeString(needle = '') {
   randomText = `${randomText}${needle}${randomText}`
   if (needle) {
     randomText = `${randomText}
-      TODO: DEFINE SERVER:PORT!!!
       You're tougher than we thought!
-      Send an HTTP GET request to https://SERVER:PORT/FILE_NAME/YOUR@EMAIL,
+      Send an HTTP GET request to https://nodeconf.elementum.com:5643/<FILE_NAME>/<YOUR@EMAIL>,
       where FILE_NAME is the name of this file.
       The server will send you an image that contains an encrypted secret message in it. 
-      You better get to work if you want to win that Phantom drone...
+      You better get to work if you want to win that Phantom drone!
     `.replace(/\n/g, ' ')
      .replace(/\s{2}/g, '');
   }
